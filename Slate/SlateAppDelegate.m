@@ -532,10 +532,10 @@ OSStatus OnModifiersChangedEvent(EventHandlerCallRef nextHandler, EventRef theEv
   NSDictionary *options = @{ (__bridge NSString *)kAXTrustedCheckOptionPrompt: @NO};
   BOOL accessibilityEnabled = AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)options);
   if (!accessibilityEnabled) {
-    NSAlert *alert = [SlateConfig warningAlertWithKeyEquivalents: [NSArray arrayWithObjects:@"Quit", @"Quit", nil]];
+    NSAlert *alert = [SlateConfig warningAlertWithKeyEquivalents:[NSArray arrayWithObjects:@"Quit", nil]];
     [alert setMessageText:[NSString stringWithFormat:@"Slate cannot run without \"Access for assistive devices.\""]];
     [alert setAlertStyle:NSCriticalAlertStyle];
-    //NSInteger alertIndex = [alert runModal];
+    [alert runModal];
     [NSApp terminate:nil];
   }
 
