@@ -32,7 +32,6 @@
 #import "SwitchOperation.h"
 #import "RunningApplications.h"
 #import "GridOperation.h"
-#import <Sparkle/SUUpdater.h>
 
 @implementation SlateAppDelegate
 
@@ -60,6 +59,7 @@ static EventHandlerRef modifiersEvent;
 }
 
 - (IBAction)relaunch {
+  /*
   NSString *launcherSource = [[NSBundle bundleForClass:[SUUpdater class]]  pathForResource:@"relaunch" ofType:@""];
   NSString *launcherTarget = [NSTemporaryDirectory() stringByAppendingPathComponent:[launcherSource lastPathComponent]];
   NSString *appPath = [[NSBundle mainBundle] bundlePath];
@@ -70,6 +70,7 @@ static EventHandlerRef modifiersEvent;
 
   [NSTask launchedTaskWithLaunchPath:launcherTarget arguments:[NSArray arrayWithObjects:appPath, processID, nil]];
   [NSApp terminate:self];
+   */
 }
 
 - (IBAction)currentWindowInfo {
@@ -496,8 +497,10 @@ OSStatus OnModifiersChangedEvent(EventHandlerCallRef nextHandler, EventRef theEv
   [self setLaunchOnLoginItemStatus];
   [launchOnLoginItem setTarget:self];
   
-  NSMenuItem *loadConfigItem = [statusMenu insertItemWithTitle:@"Relaunch and Load Config" action:@selector(relaunch) keyEquivalent:@"" atIndex:0];
+  /*
+  NSMenuItem *loadConfigItem = [statusMenu insertItemWithTitle:@"DISABLED : Relaunch and Load Config" action:@selector(relaunch) keyEquivalent:@"" atIndex:0];
   [loadConfigItem setTarget:self];
+   */
   
   NSMenuItem *hideItem = [statusMenu insertItemWithTitle:@"Hide Menu Bar Icon" action:@selector(hideMenuBarIcon) keyEquivalent:@"" atIndex:0];
   [hideItem setTarget:self];
