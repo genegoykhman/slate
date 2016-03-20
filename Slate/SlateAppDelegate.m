@@ -18,6 +18,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see http://www.gnu.org/licenses
 
+#import <ApplicationServices/ApplicationServices.h>
 #import "Constants.h"
 #import "SlateAppDelegate.h"
 #import "SlateConfig.h"
@@ -527,24 +528,15 @@ OSStatus OnModifiersChangedEvent(EventHandlerCallRef nextHandler, EventRef theEv
   @synchronized(keyUpLock) {
     keyUpLock = [[NSObject alloc] init];
   }
-
-  // Check if Accessibility API is enabled
-  if (!AXAPIEnabled()) {
-    NSAlert *alert = [SlateConfig warningAlertWithKeyEquivalents: [NSArray arrayWithObjects:@"Enable", @"Quit", nil]];
-    [alert setMessageText:[NSString stringWithFormat:@"Slate cannot run without \"Access for assistive devices\". Would you like to enable it?"]];
-    [alert setInformativeText:[NSString stringWithFormat:@"You may be prompted for your administrator password."]];
+  
+  NSDictionary *options = @{ (__bridge NSString *)kAXTrustedCheckOptionPrompt: @YES};
+  BOOL accessibilityEnabled = AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)options);
+  if (!accessibilityEnabled) {
+    NSAlert *alert = [SlateConfig warningAlertWithKeyEquivalents: [NSArray arrayWithObjects:@"Quit", nil]];
+    [alert setMessageText:[NSString stringWithFormat:@"Slate cannot run without \"Access for assistive devices.\""]];
     [alert setAlertStyle:NSCriticalAlertStyle];
-    NSInteger alertIndex = [alert runModal];
-    if (alertIndex == NSAlertFirstButtonReturn) {
-      SlateLogger(@"User wants to enable Access for assistive devices");
-      NSDictionary* errorDictionary;
-      NSAppleScript* applescript = [[NSAppleScript alloc] initWithSource:@"tell application \"System Events\" to set UI elements enabled to true"];
-      [applescript executeAndReturnError:&errorDictionary];
-    }
-    else if (alertIndex == NSAlertSecondButtonReturn) {
-      SlateLogger(@"User selected quit");
-      [NSApp terminate:nil];
-    }
+    //NSInteger alertIndex = [alert runModal];
+    [NSApp terminate:nil];
   }
 
   // Read Config
