@@ -757,7 +757,6 @@
                 </subviews>
             </view>
         </window>
-        <customObject id="657" customClass="SUUpdater"/>
         <userDefaultsController representsSharedInstance="YES" id="665"/>
     </objects>
 </document>
