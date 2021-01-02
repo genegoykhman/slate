@@ -126,7 +126,7 @@ static NSDictionary *dictionary = nil;
       theModalKey = [[Binding asciiToCodeDict] objectForKey:[keyAndModifiers objectAtIndex:1]];
       if (theModalKey == nil) {
         // normal case
-        NSArray *modifiersArray = [[keyAndModifiers objectAtIndex:1] componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@",;"]];
+        NSArray *modifiersArray = [[keyAndModifiers objectAtIndex:1] componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"|"]];
         NSEnumerator *modEnum = [modifiersArray objectEnumerator];
         NSString *mod = [modEnum nextObject];
         while (mod) {
